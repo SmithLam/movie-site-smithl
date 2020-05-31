@@ -1,6 +1,7 @@
 import React,{useEffect, useState} from 'react';
 import {Card, ListGroup, ListGroupItem, Badge} from 'react-bootstrap'
 import {Form, Row, Col} from 'react-bootstrap'
+import MovieNightPic from './Movie-Night-Flyer.jpg'
 
 export default function movieList(props) {
 
@@ -13,7 +14,7 @@ export default function movieList(props) {
                 {return(
                     <div>
                   <Card id="card" className="bg-dark text-white">
-                  <Card.Img id="card-image" src={`https://image.tmdb.org/t/p/w300_and_h450_bestv2${item.poster_path}` || props.MovieNightPic} alt="Card image" />
+                  <Card.Img id="card-image" src={item.poster_path?`https://image.tmdb.org/t/p/w300_and_h450_bestv2${item.poster_path}`: MovieNightPic} alt="Card image" />
                   <Card.ImgOverlay>
                   <div id="card-content">
                   <Card.Title className="my-3"><a id="item-title" href={`https://www.themoviedb.org/movie/${item.id}?language=en-US`}>{item.title}</a></Card.Title>
