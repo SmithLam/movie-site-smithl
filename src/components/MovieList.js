@@ -1,56 +1,40 @@
-import React from 'react';
-import {Card, ListGroup, ListGroupItem} from 'react-bootstrap'
-
+import React,{useEffect, useState} from 'react';
+import {Card, ListGroup, ListGroupItem, Badge} from 'react-bootstrap'
+import {Form, Row, Col} from 'react-bootstrap'
 
 export default function movieList(props) {
 
-    if(props.movieList === null){
-            return (<div>loading</div>)
-            }
-
-    if(props.genreList=== null){
-                return (<div>loading</div>)
-                }
-    
-
-console.log("what are movie id ", props.movieList[0].genre_ids[0])
-console.log("what are id in genre id", props.genreList[0].id)
-
-
-
     return (
-        <div>
+        <div className="container-fluid">
+          <div className="Row">
+          <div className="col-md-12 d-flex flex-wrap justify-content-center">
             {props.movieList.map
             (item => 
                 {return(
                     <div>
-                    <Card style={{ width: '18rem' }}>
-                    <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w300_and_h450_bestv2${item.poster_path}`} />
-                    <Card.Body>
-                      <Card.Title>{item.title}</Card.Title>
-                      <Card.Text>
-                       {item.overview}
-                      </Card.Text>
-                    </Card.Body>
-                    <ListGroup className="list-group-flush">
-                      <ListGroupItem>{item.genre_ids.map(movieId => {
-                          return (<p>{props.genreList.find(genreId => genreId.id === movieId).name}</p>) 
+                  <Card id="card" className="bg-dark text-white">
+                  <Card.Img id="card-image" src={`https://image.tmdb.org/t/p/w300_and_h450_bestv2${item.poster_path}` || props.MovieNightPic} alt="Card image" />
+                  <Card.ImgOverlay>
+                  <div id="card-content">
+                  <Card.Title className="my-3"><a id="item-title" href={`https://www.themoviedb.org/movie/${item.id}?language=en-US`}>{item.title}</a></Card.Title>
+                  <Card.Text className="my-2">{item.genre_ids.map(movieId => {
+                          return (<Badge pill className="mr-2" variant="danger">{props.genreList.find(genre => genre.id === movieId).name}</Badge>) 
+                      })}
+                  </Card.Text>
+                  <Card.Text>Ratings: {item.vote_average}</Card.Text>
+                  <Card.Text>
+                  <div id="overview-text">{item.overview}</div>
+                  </Card.Text>
+                  </div>
+                </Card.ImgOverlay>
+                </Card>
 
-
-                      })}</ListGroupItem>
-                      <ListGroupItem>Dapibus ac facilisis in</ListGroupItem>
-                      <ListGroupItem>Vestibulum at eros</ListGroupItem>
-                    </ListGroup>
-                    <Card.Body>
-                      <Card.Link href="#">Card Link</Card.Link>
-                      <Card.Link href="#">Another Link</Card.Link>
-                    </Card.Body>
-                  </Card>
                   </div>
                 
-                
-                // <div>{item.title}</div>
+    
                 )})}
+          </div>
+          </div>
         </div>
     )
 }
