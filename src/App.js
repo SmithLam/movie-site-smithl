@@ -130,7 +130,9 @@ const searchByKeyword = async (keyword, event) => {
   let movieresult = await data.json()
   console.log("What is result", movieresult.results[0])
   if (!movieresult.results[0]){
+    handleClose()
     alert("This movie's Youtube trailer is currently unknown")
+    return
   }
   else{
   setMovieID(movieresult.results[0])
