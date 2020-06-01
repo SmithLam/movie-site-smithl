@@ -70,6 +70,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: black;
     z-index:0;
 }
 
@@ -84,3 +85,4 @@
   background-color: black;
   color:white;
 }
+

@@ -19,16 +19,26 @@ export default function YoutubeModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body id="modal-body">
-        <h4>{props.movieID.name}</h4>
+        <h4>{props.movieID.name? props.movieID.name:"Untitled Movie"}</h4>
         <div className="d-flex justify-content-center">
         <YouTube
-        video={props.movieID.key}
+              video={props.movieID.key? props.movieID.key:"fT7pFSfVZBI"}
+              allowFullscreen
+              height="480px"
+              width="600px"
+              controls
+            />
+          </div>
+        {/* <h4>{props.movieID.name}</h4>
+        <div className="d-flex justify-content-center">
+        <YouTube
+        video={props.movieID.key? props.movieID.key:"fT7pFSfVZBI"}
         allowFullscreen
         height="480px"
         width="600px"
         controls
         />
-        </div>
+        </div> */}
       </Modal.Body>
       {/* <Modal.Footer>
         <Button onClick={props.onHide}>Close</Button>
