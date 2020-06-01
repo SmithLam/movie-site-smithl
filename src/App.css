@@ -13,7 +13,6 @@
   opacity:1;
 }
 
-
 #card-content{
   opacity:0;
 }
@@ -34,7 +33,7 @@
 #overview-text{
   display: flex;
   text-align: justify;
-  max-height: 200px;
+  max-height: 125px;
   overflow-y: scroll;
 }
 
@@ -71,4 +70,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index:0;
+}
+
+
+/* Modal */
+#modal-head{
+  background-color: black;
+  color:white;
+}
+
+#modal-body{
+  background-color: black;
+  color:white;
 }

@@ -8,6 +8,8 @@ import Pagination from "react-js-pagination";
 import popCornLogo from '../src/pop-corn-logo.png';
 import { css } from "@emotion/core";
 import PacmanLoader from "react-spinners/PacmanLoader";
+import YoutubeModal from './components/YoutubeModal';
+
 
 const override = css`
   display: block;
@@ -28,6 +30,8 @@ let [trendName, setTrendName] = useState("now_playing")
 let [moviePage, setMoviePage] = useState({});
 let [searchTerm, setSearchTerm] = useState(null);
 let [searchGenre, setSearchGenre] = useState(null);
+const [show, setShow] = useState(false);
+let [movieID, setMovieID] = useState("")
 
 
 const getGenre = async () => {
@@ -73,7 +77,7 @@ const getDiscoverGenre = async (genre) => {
   setOGMovies(result.results)
 }
 
-
+//sort by Rating
 let sortByRating = (order) => {
   //const duplicatedMovieList = movieList.slice(0);
   const duplicatedMovieList = [...movieList]
@@ -93,7 +97,10 @@ let sortByRating = (order) => {
 let unSort =() =>{
   setMovieList(movieList)
 }
+//end sort by ratings
 
+
+//searchByKeyword
 const searchByKeyword = async (keyword, event) => {
   setActivePage(1);
   console.log(keyword)
@@ -114,6 +121,18 @@ const searchByKeyword = async (keyword, event) => {
   }
 }
 
+//Youtube{
+ const searchYoutube = async (id) =>{
+  handleShow()
+  console.log("what is title id", id)
+  let url = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY}&language=en-US`
+  let data = await fetch(url)
+  let movieresult = await data.json()
+  console.log("What is result", movieresult.results[0])
+  setMovieID(movieresult.results[0])
+ }
+
+
  // pagination
  let [page, setActivePage] = useState(1);
  let handlePageChange = async (pageNumber)=> {
@@ -133,6 +152,11 @@ const searchByKeyword = async (keyword, event) => {
    setMoviePage(result)
    setMovieList(result.results)
  }
+
+//modal
+const handleClose = () => setShow(false);
+const handleShow = () => setShow(true);
+
 
 //useEffect
 useEffect(()=>{
@@ -172,7 +196,16 @@ return (
       itemClass="page-item"
       linkClass="page-link"
       />
-    <MovieList movieList ={movieList} genreList ={genreList}/>
+
+    <YoutubeModal
+        show={show}
+        onHide={() => setShow(false)}
+        movieID={movieID}
+        >
+    </YoutubeModal>
+
+
+    <MovieList movieList ={movieList} searchYoutube={searchYoutube} handleShow={handleShow} genreList ={genreList}/>
 
     <Pagination className="pagination"
       hideDisabled
