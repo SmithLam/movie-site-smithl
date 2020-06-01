@@ -1,6 +1,7 @@
 import React,{useEffect, useState} from 'react';
 import {Card, ListGroup, ListGroupItem, Badge} from 'react-bootstrap'
 import {Form, Row, Col} from 'react-bootstrap'
+import Moment from 'react-moment';
 import MovieNightPic from './Movie-Night-Flyer.jpg'
 
 export default function movieList(props) {
@@ -23,6 +24,7 @@ export default function movieList(props) {
                       })}
                   </Card.Text>
                   <Card.Text>Ratings: {item.vote_average}</Card.Text>
+                  <Card.Text>Release Date: <Moment format="D MMM YYYY" withTitle>{item.release_date}</Moment></Card.Text>
                   <Card.Text>
                   <div id="overview-text">{item.overview}</div>
                   </Card.Text>
