@@ -76,6 +76,11 @@
 
 
 /* Modal */
+.Modal{
+ transition-delay: 10s;
+ transition: 20s;
+}
+
 #modal-head{
   background-color: black;
   color:white;

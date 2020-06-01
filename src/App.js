@@ -9,7 +9,7 @@ import popCornLogo from '../src/pop-corn-logo.png';
 import { css } from "@emotion/core";
 import PacmanLoader from "react-spinners/PacmanLoader";
 import YoutubeModal from './components/YoutubeModal';
-
+import Zoom from 'react-reveal/Zoom';
 
 const override = css`
   display: block;
@@ -204,13 +204,14 @@ return (
       linkClass="page-link"
       />
 
+    <Zoom top>
     <YoutubeModal
         show={show}
         onHide={() => setShow(false)}
         movieID={movieID}
         >
     </YoutubeModal>
-
+    </Zoom>
 
     <MovieList movieList ={movieList} searchYoutube={searchYoutube} handleShow={handleShow} genreList ={genreList}/>
 
