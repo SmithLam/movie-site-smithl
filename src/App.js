@@ -115,7 +115,7 @@ const searchByKeyword = async (inputValue, event) => {
   setSearchOption(keywordOption)
   setSearchKeyword(inputValue);
   if(inputValue === ""){
-    getMovie(1)
+    getMovie()
     setMovieList(movieList);
     setOGMovies(movieList);
   } else {
