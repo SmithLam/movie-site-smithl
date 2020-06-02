@@ -48,6 +48,7 @@ const getGenre = async () => {
 }
 
 const getMovie = async () => {
+ setSearchOption(trendNameOption)
  let url = `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1`
  let data = await fetch(url)
  let result = await data.json()
@@ -131,19 +132,19 @@ const searchByKeyword = async (inputValue, event) => {
 
 //Youtube{
  const searchYoutube = async (id) =>{
-  handleShow()
   console.log("what is title id", id)
   let url = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY}&language=en-US`
   let data = await fetch(url)
   let movieresult = await data.json()
   console.log("What is result", movieresult.results[0])
   if (!movieresult.results[0]){
-    handleClose()
     alert("This movie's Youtube trailer is currently unknown!")
     return
   }
   else{
   setMovieID(movieresult.results[0])
+  handleShow()
+  return
   }
  }
 
@@ -179,6 +180,7 @@ const handleShow = () => setShow(true);
 
 //useEffect
 useEffect(()=>{
+  window.scrollTo(0, 0);
   getGenre();
 },[]) ;
 
