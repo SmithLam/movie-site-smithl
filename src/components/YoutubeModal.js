@@ -16,11 +16,10 @@ export default function YoutubeModal(props) {
      >
       <Modal.Header id="modal-head" closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-        Youtube trailer
+        <h4>{props.movieID.name? props.movieID.name:"Untitled Movie"}</h4>
         </Modal.Title>
       </Modal.Header>
       <Modal.Body id="modal-body">
-        <h4>{props.movieID.name? props.movieID.name:"Untitled Movie"}</h4>
         <div className="d-flex justify-content-center">
         <YouTube
               video={props.movieID.key? props.movieID.key:"fT7pFSfVZBI"}
