@@ -2,6 +2,7 @@ import React from 'react';
 import {Card, Badge, Button} from 'react-bootstrap'
 import Moment from 'react-moment';
 import MovieNightPic from './Movie-Night-Flyer.jpg'
+import Zoom from 'react-reveal/Zoom';
 
 export default function movieList(props) {
 
@@ -12,6 +13,7 @@ export default function movieList(props) {
             {props.movieList.map
             (item => 
                 {return(
+                  <Zoom>
                     <div>
                   <Card id="card" className="bg-dark text-white">
                   <Card.Img id="card-image" src={item.poster_path?`https://image.tmdb.org/t/p/w300_and_h450_bestv2${item.poster_path}`: MovieNightPic} alt="Card image" />
@@ -33,6 +35,7 @@ export default function movieList(props) {
                 </Card>
 
                   </div>
+                  </Zoom>
                 
     
                 )})}

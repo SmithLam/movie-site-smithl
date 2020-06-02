@@ -1,9 +1,9 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {Nav, Navbar, NavDropdown, Form, FormControl} from 'react-bootstrap'
 
 
 export default function NavigationBar(props) {
-    let keyword = "";
+    let [inputValue, setInputValue] = useState("")
     return (
         <Navbar collapseOnSelect className="sticky-top" expand="lg" bg="dark" variant="dark">
         <Navbar.Brand href="#home">
@@ -43,12 +43,12 @@ export default function NavigationBar(props) {
               <NavDropdown.Item onClick={()=>props.getDiscoverGenre("10752")}>War</NavDropdown.Item>
               <NavDropdown.Item onClick={()=>props.getDiscoverGenre("37")}>Western</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item onClick={()=> props.getTrendMovie("now_playing")}>All</NavDropdown.Item>
+              <NavDropdown.Item onClick={()=> props.getDiscoverGenre("")}>All</NavDropdown.Item>
             </NavDropdown>
           </Nav>
           <Nav>
-          <Form inline onChange={(event) => {event.preventDefault(); props.searchByKeyword(keyword, event);}}>
-            <FormControl className="d-flex flex-row-reverse mr-sm-2" type="text"  placeholder="Search your movie here..." onChange={(event) => keyword=event.target.value}/>
+          <Form inline onSubmit={(event) => {event.preventDefault(); props.searchByKeyword(inputValue, event); setInputValue("")}}>
+            <FormControl className="d-flex flex-row-reverse mr-sm-2" type="text"  value={inputValue} placeholder="Search your movie here..." onChange={(event) => setInputValue(event.target.value)} />
         </Form>
           </Nav>
         </Navbar.Collapse>

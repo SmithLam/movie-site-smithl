@@ -91,3 +91,6 @@
   color:white;
 }
 
+.Zoom{
+  transition-duration: 20s;
+}

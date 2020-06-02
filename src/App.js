@@ -16,22 +16,26 @@ const override = css`
   margin: 10% auto;
 `;
 
-
+let trendNameOption = "trendNameOption"
+let genreNameOption = "genreNameOption"
+let keywordOption = "keywordOption"
 
 const API_KEY = process.env.REACT_APP_APIKEY
 
 function App() {
 
-let [movieList, setMovieList] = useState(null);
-let [OGMovies, setOGMovies] = useState([]);
-let [genreList, setGenreList] = useState(null);
+let [movieList, setMovieList] = useState(null); //the movie result from API
+let [OGMovies, setOGMovies] = useState([]); //the original movie result from API to compare with sorted movieList
+let [genreList, setGenreList] = useState(null); //to get the genre from genre API
 let [loading, setLoading] = useState(true)
-let [trendName, setTrendName] = useState("now_playing")
-let [moviePage, setMoviePage] = useState({});
-let [searchTerm, setSearchTerm] = useState(null);
-let [searchGenre, setSearchGenre] = useState(null);
+let [moviePage, setMoviePage] = useState({}); //the state to help pagination
+let [keyword, setSearchKeyword] = useState(null); //the state of value from the input bar to search via keyword
+let [trendName, setTrendName] = useState("now_playing") //the value of searching via trend
+let [searchGenre, setSearchGenre] = useState(null); //the value of searching via genre
+let [searchOption, setSearchOption] = useState("") //crucial option to different the search so the engine only does one kind of search (keyword OR genre OR trending) at a time
 const [show, setShow] = useState(false);
-let [movieID, setMovieID] = useState("")
+let [movieID, setMovieID] = useState("") //to get the youtube key from movie id
+
 
 
 const getGenre = async () => {
@@ -55,6 +59,7 @@ console.log("movies", result)
 
 const getTrendMovie = async (trend) => {
   setActivePage(1);
+  setSearchOption(trendNameOption)
   setTrendName(trend)
   let url = `https://api.themoviedb.org/3/movie/${trend}?api_key=${API_KEY}&language=en-US&page=1`
   let data = await fetch(url)
@@ -67,12 +72,14 @@ const getTrendMovie = async (trend) => {
  
 
 const getDiscoverGenre = async (genre) => {
-  setActivePage(1);
+  setActivePage();
+  setSearchOption(genreNameOption)
   setSearchGenre(genre)
   let url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genre}`
   let data = await fetch(url)
   let result = await data.json()
   setMoviePage(result)
+  console.log("what are the total results here", result.total_results)
   setMovieList(result.results)
   setOGMovies(result.results)
 }
@@ -95,26 +102,27 @@ let sortByRating = (order) => {
 };
 
 let unSort =() =>{
-  setMovieList(movieList)
+  setMovieList(OGMovies)
 }
 //end sort by ratings
 
 
 //searchByKeyword
-const searchByKeyword = async (keyword, event) => {
-  setActivePage(1);
-  console.log(keyword)
-  setSearchTerm(keyword);
-  if(keyword === ''){
+const searchByKeyword = async (inputValue, event) => {
+  setActivePage();
+  console.log(inputValue)
+  setSearchOption(keywordOption)
+  setSearchKeyword(inputValue);
+  if(inputValue === ""){
     getMovie(1)
     setMovieList(movieList);
     setOGMovies(movieList);
   } else {
-  setMovieList(OGMovies.filter(movie=> movie.title.toLowerCase().includes(keyword.toLowerCase())));
-  let url = `https://api.themoviedb.org/3/search/movie?query=${keyword}&api_key=${API_KEY}&language=en-US&page=1`
+  setMovieList(OGMovies.filter(movie=> movie.title.toLowerCase().includes(inputValue.toLowerCase())));
+  let url = `https://api.themoviedb.org/3/search/movie?query=${inputValue}&api_key=${API_KEY}&language=en-US&page=1`
   let data = await fetch(url)
   let result = await data.json()
-  console.log('data searched by keyword:', data);
+  console.log('data searched by inPutValue:', data);
   setMoviePage(result)
   setMovieList(result.results)
   setOGMovies(result.results)
@@ -131,7 +139,7 @@ const searchByKeyword = async (keyword, event) => {
   console.log("What is result", movieresult.results[0])
   if (!movieresult.results[0]){
     handleClose()
-    alert("This movie's Youtube trailer is currently unknown")
+    alert("This movie's Youtube trailer is currently unknown!")
     return
   }
   else{
@@ -141,22 +149,26 @@ const searchByKeyword = async (keyword, event) => {
 
 
  // pagination
+ //add in searchOption to distinguish between the search
  let [page, setActivePage] = useState(1);
  let handlePageChange = async (pageNumber)=> {
    setActivePage(pageNumber);
    console.log(`active page is ${pageNumber}`);
-   console.log('key current is:', trendName);
    let url = ''
-   if(searchTerm){
-     url = `https://api.themoviedb.org/3/search/movie?query=${searchTerm}&api_key=${API_KEY}&language=en-US&page=${pageNumber}`
-   } else if(searchGenre){
+   if(searchOption ==="keywordOption"){
+     url = `https://api.themoviedb.org/3/search/movie?query=${keyword}&api_key=${API_KEY}&language=en-US&page=${pageNumber}`
+   } 
+   else if(searchOption ==="genreNameOption"){
      url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&with_genres=${searchGenre}&page=${pageNumber}`
-   } else {
+   } 
+   else if (searchOption ==="trendNameOption") {
      url = `https://api.themoviedb.org/3/movie/${trendName}?api_key=${API_KEY}&language=en-US&page=${pageNumber}`
    }
+   console.log('key current is:', trendName, keyword, searchGenre);
    let data = await fetch(url)
    let result = await data.json()
-   setMoviePage(result)
+   setMoviePage(result) 
+   console.log("What is moviepage here", moviePage.total_results)
    setMovieList(result.results)
  }
 
@@ -204,16 +216,16 @@ return (
       linkClass="page-link"
       />
 
-    <Zoom top>
     <YoutubeModal
         show={show}
         onHide={() => setShow(false)}
         movieID={movieID}
         >
     </YoutubeModal>
-    </Zoom>
+
 
     <MovieList movieList ={movieList} searchYoutube={searchYoutube} handleShow={handleShow} genreList ={genreList}/>
+
 
     <Pagination className="pagination"
       hideDisabled

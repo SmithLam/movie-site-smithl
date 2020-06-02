@@ -1,17 +1,16 @@
 import React from 'react'
 import {Modal} from 'react-bootstrap'
 import YouTube from '@u-wave/react-youtube';
-import Zoom from 'react-reveal/Zoom';
+
 
 
 export default function YoutubeModal(props) {
     return (
         <div>
-          <Zoom top>
         <Modal
       {...props}
       size="lg"     
-      dialogClassName="modal-90h"
+      dialogClassName="modal-90h modal-fade"
       aria-labelledby="contained-modal-title-vcenter"
       centered
      >
@@ -36,7 +35,6 @@ export default function YoutubeModal(props) {
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer> */}
     </Modal>
-    </Zoom>
         </div>
     )
 }
