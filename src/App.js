@@ -9,7 +9,10 @@ import popCornLogo from "../src/pop-corn-logo.png";
 import { css } from "@emotion/core";
 import PacmanLoader from "react-spinners/PacmanLoader";
 import YoutubeModal from "./components/YoutubeModal";
+import favoriteMovie from "./components/FavoriteMovie";
+
 import Zoom from "react-reveal/Zoom";
+import FavoriteMovie from "./components/FavoriteMovie";
 
 const override = css`
   display: block;
@@ -28,12 +31,16 @@ function App() {
   let [genreList, setGenreList] = useState(null); //to get the genre from genre API
   let [loading, setLoading] = useState(true);
   let [moviePage, setMoviePage] = useState({}); //the state to help pagination
+
   let [keyword, setSearchKeyword] = useState(null); //the state of value from the input bar to search via keyword
   let [trendName, setTrendName] = useState("now_playing"); //the value of searching via trend
   let [searchGenre, setSearchGenre] = useState(null); //the value of searching via genre
   let [searchOption, setSearchOption] = useState(""); //crucial option to different the search so the engine only does one kind of search (keyword OR genre OR trending) at a time
   const [show, setShow] = useState(false);
   let [movieID, setMovieID] = useState(""); //to get the youtube key from movie id
+  let [favoriteMovie, setFavoriteMovie] = useState(
+    JSON.parse(localStorage.getItem("FavoriteMovieList"))
+  );
 
   const getGenre = async () => {
     let url = `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en-US`;
@@ -170,6 +177,21 @@ function App() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  //add favorite
+  const addFavorite = (item) => {
+    let newFavoriteMovie = favoriteMovie.slice();
+    newFavoriteMovie.push(item);
+    setFavoriteMovie(newFavoriteMovie);
+    localStorage.setItem("FavoriteMovieList", JSON.stringify(newFavoriteMovie));
+  };
+
+  //delete favorite
+  const deleteFavorite = (deleteID) => {
+    let newFavoriteMovie = favoriteMovie.filter((item) => item.id !=deleteID);
+    setFavoriteMovie(newFavoriteMovie);
+    localStorage.setItem("FavoriteMovieList", JSON.stringify(newFavoriteMovie));
+  };
+
   //useEffect
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -203,7 +225,13 @@ function App() {
       />
       {/* <div><RangeSliderComp movieList ={movieList}/></div> */}
       {/* <div>bigTrendName</div> */}
-
+      <FavoriteMovie
+        favoriteMovie={favoriteMovie}
+        deleteFavorite={deleteFavorite}
+        searchYoutube={searchYoutube}
+        handleShow={handleShow}
+        genreList={genreList}
+      />
       <Pagination
         className="pagination"
         hideDisabled
@@ -230,6 +258,7 @@ function App() {
         searchYoutube={searchYoutube}
         handleShow={handleShow}
         genreList={genreList}
+        addFavorite={addFavorite}
       />
 
       <Pagination

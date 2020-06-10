@@ -55,6 +55,12 @@ export default function movieList(props) {
                         </Card.Text>
                         <Card.Text>
                           <Button
+                            variant="outline-danger"
+                            onClick={() => props.addFavorite(item)}
+                          >
+                          Add to Favorite
+                          </Button>
+                          <Button
                             variant="outline-success"
                             onClick={() => props.searchYoutube(item.id)}
                           >
