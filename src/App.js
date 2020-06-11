@@ -39,7 +39,7 @@ function App() {
   const [show, setShow] = useState(false);
   let [movieID, setMovieID] = useState(""); //to get the youtube key from movie id
   let [favoriteMovie, setFavoriteMovie] = useState(
-    JSON.parse(localStorage.getItem("FavoriteMovieList"))
+    JSON.parse(localStorage.getItem("FavoriteMovieList") ||"")
   );
 
   const getGenre = async () => {
