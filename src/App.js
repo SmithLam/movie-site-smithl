@@ -187,7 +187,7 @@ function App() {
 
   //delete favorite
   const deleteFavorite = (deleteID) => {
-    let newFavoriteMovie = favoriteMovie.filter((item) => item.id !=deleteID);
+    let newFavoriteMovie = favoriteMovie.filter((item) => item.id != deleteID);
     setFavoriteMovie(newFavoriteMovie);
     localStorage.setItem("FavoriteMovieList", JSON.stringify(newFavoriteMovie));
   };

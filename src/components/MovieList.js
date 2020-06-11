@@ -58,7 +58,7 @@ export default function movieList(props) {
                             variant="outline-danger"
                             onClick={() => props.addFavorite(item)}
                           >
-                          Add to Favorite
+                            Add to Favorite
                           </Button>
                           <Button
                             variant="outline-success"
