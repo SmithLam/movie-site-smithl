@@ -38,9 +38,11 @@ function App() {
   let [searchOption, setSearchOption] = useState(""); //crucial option to different the search so the engine only does one kind of search (keyword OR genre OR trending) at a time
   const [show, setShow] = useState(false);
   let [movieID, setMovieID] = useState(""); //to get the youtube key from movie id
+  let FavoriteList = JSON.parse(localStorage.getItem("FavoriteMovieList"))
+  if (FavoriteList === null) {
+  FavoriteList=[]}
   let [favoriteMovie, setFavoriteMovie] = useState(
-    JSON.parse(localStorage.getItem("FavoriteMovieList"))
-  );
+    FavoriteList)
 
   const getGenre = async () => {
     let url = `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en-US`;
